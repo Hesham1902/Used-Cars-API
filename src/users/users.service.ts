@@ -13,8 +13,8 @@ export class UsersService {
     return this.repo.save(user);
   }
 
-  findAll() {
-    return this.repo.find();
+  find(email: string) {
+    return this.repo.findOneBy({ email });
   }
 
   findOne(id: number) {
