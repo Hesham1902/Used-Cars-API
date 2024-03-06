@@ -16,7 +16,7 @@ import {
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { Serialize } from 'interceptors/serialize.interceptor';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './decorators/current-user.decorator';
@@ -30,7 +30,6 @@ export class UsersController {
     private userService: UsersService,
     private authService: AuthService,
   ) {}
-
   @Post('/signup')
   async createUser(@Body() body: CreateUserDto, @Session() session: any) {
     const user = await this.authService.signup(body.email, body.password);
@@ -41,12 +40,11 @@ export class UsersController {
   @Post('/signin')
   async signin(@Body() body: CreateUserDto, @Session() session: any) {
     const user = await this.authService.signin(body.email, body.password);
-    console.log(session);
     session.userId = user.id;
     return user;
   }
 
-  @Post('/whoami')
+  @Get('/whoami')
   @UseGuards(AuthGuard)
   whoAmI(@CurrentUser() user: User) {
     return user;
@@ -54,8 +52,8 @@ export class UsersController {
 
   @Post('/signout')
   signOut(@Session() session: any) {
-    console.log(session);
     session.userId = null;
+    console.log(session);
   }
 
   @Get('/users')

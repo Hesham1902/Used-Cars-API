@@ -2,7 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-// import { UpdateUserDto } from './dtos/update-user.dto';
+
+// import { UpdateUserDto } from './dtos/update-user.dto
 
 @Injectable()
 export class UsersService {
@@ -41,7 +42,6 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    this.repo.remove(user);
-    return;
+    return this.repo.remove(user);
   }
 }

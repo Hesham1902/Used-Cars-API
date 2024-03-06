@@ -35,9 +35,8 @@ export class AuthService {
     const hash = await bcrypt.hash(password, salt);
 
     // Create a new user and save it
-    const createdUser = await this.userService.create(email, hash);
     // return the user
-    return createdUser;
+    return await this.userService.create(email, hash);
   }
 
   async signin(email: string, password: string) {
