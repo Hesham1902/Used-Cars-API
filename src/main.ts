@@ -8,12 +8,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setDescription('REST API Endpoints')
     .setVersion('1.0')
-    .addBearerAuth({
-      type: 'http',
-      scheme: 'bearer',
-      name: 'Authorization',
-      in: 'header',
-    })
+    .addCookieAuth('Cookie')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

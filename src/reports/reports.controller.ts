@@ -9,17 +9,22 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { CreateReportDto } from './dtos/create-reprot.dto';
 import { ReportsService } from './reports.service';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
-import { ReportDto } from './dtos/report.dto';
+import {
+  GetEstimateDto,
+  ApproveReportDto,
+  ReportDto,
+  CreateReportDto,
+} from './dto/index';
 import { CurrentUser } from 'src/users/decorators/current-user.decorator';
 import { User } from 'src/users/user.entity';
-import { ApproveReportDto } from './dtos/approve-report.dto';
 import { AdminGuard } from 'src/guards/admin.guard';
-import { GetEstimateDto } from './dtos/get-estimate.dto';
+import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Reports')
+@ApiCookieAuth()
 @UseGuards(AuthGuard)
 @Controller('reports')
 export class ReportsController {

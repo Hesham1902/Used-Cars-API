@@ -2,10 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Report } from './report.entity';
 import { Repository } from 'typeorm';
-import { CreateReportDto } from './dtos/create-reprot.dto';
+import { CreateReportDto } from './dto/create-report.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/users/user.entity';
-import { GetEstimateDto } from './dtos/get-estimate.dto';
+import { GetEstimateDto } from './dto/get-estimate.dto';
 
 @ApiBearerAuth()
 @ApiTags('Reports')

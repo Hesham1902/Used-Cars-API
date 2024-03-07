@@ -1,11 +1,4 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": [
-    "typeOrm.config.ts",
-    "migrations",
-    "node_modules",
-    "test",
-    "dist",
-    "**/*spec.ts"
-  ]
+  "exclude": ["migrations", "node_modules", "test", "dist", "**/*spec.ts"]
 }
