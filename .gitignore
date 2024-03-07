@@ -1,4 +1,5 @@
-.env.dev
+.env.development
+.env
 .env.test
 
 # compiled output

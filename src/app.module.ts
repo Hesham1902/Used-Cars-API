@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { Logger, MiddlewareConsumer, Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { ReportsModule } from './reports/reports.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -10,30 +10,25 @@ import { APP_PIPE } from '@nestjs/core';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const cookieSession = require('cookie-session');
 
+console.log(process.env.NODE_ENV);
+
 @Module({
   imports: [
-    // TypeOrmModule.forRoot({
-    //   type: 'sqlite',
-    //   database: 'db.sqlite',
-    //   entities: [User, Report],
-    //   synchronize: true,
-    // }),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      url: process.env.DATABASE_URL,
+      entities: [User, Report],
+      synchronize: true,
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: `.env.${process.env.NODE_ENV}`,
+      envFilePath:
+        process.env.NODE_ENV === 'development' ||
+        process.env.NODE_ENV === 'test'
+          ? `.env.${process.env.NODE_ENV}`
+          : undefined,
     }),
 
-    TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => {
-        return {
-          type: 'sqlite',
-          database: config.get<string>('DB_NAME'),
-          synchronize: true,
-          entities: [User, Report],
-        };
-      },
-    }),
     ReportsModule,
     UsersModule,
   ],
@@ -48,11 +43,17 @@ const cookieSession = require('cookie-session');
   ],
 })
 export class AppModule {
+  private logger = new Logger('environment');
+  constructor(private configService: ConfigService) {
+    this.logger.log(configService.getOrThrow('NODE_ENV'));
+    console.log(configService.get('DB_NAME'));
+  }
+
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(
         cookieSession({
-          keys: ['asdadasd'],
+          keys: [this.configService.get('COOKIE_KEY')],
         }),
       )
       .forRoutes('*');

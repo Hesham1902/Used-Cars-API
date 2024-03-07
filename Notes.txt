@@ -1,0 +1,3 @@
+To create migration file:
+
+npm run typeorm migration:create -- ./src/inital-schema -o
