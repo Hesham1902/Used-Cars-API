@@ -4,7 +4,6 @@ import {
   Get,
   Param,
   ParseIntPipe,
-  Patch,
   Post,
   Query,
   UseGuards,
@@ -12,16 +11,10 @@ import {
 import { ReportsService } from './reports.service';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
-import {
-  GetEstimateDto,
-  ApproveReportDto,
-  ReportDto,
-  CreateReportDto,
-} from './dto/index';
+import { GetEstimateDto, ReportDto, CreateReportDto } from './dto/index';
 import { CurrentUser } from 'src/users/decorators/current-user.decorator';
 import { User } from 'src/users/user.entity';
-import { AdminGuard } from 'src/guards/admin.guard';
-import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
+import { ApiCookieAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Reports')
 @ApiCookieAuth()
@@ -30,6 +23,7 @@ import { ApiCookieAuth, ApiTags } from '@nestjs/swagger';
 export class ReportsController {
   constructor(private reportService: ReportsService) {}
 
+  @ApiOperation({ summary: 'Get Estimation for car value' })
   @Get()
   getEstimate(@Query() query: GetEstimateDto) {
     return this.reportService.createEstimate(query);
@@ -39,15 +33,6 @@ export class ReportsController {
   @Post()
   createReport(@Body() body: CreateReportDto, @CurrentUser() user: User) {
     return this.reportService.create(body, user);
-  }
-
-  @UseGuards(AdminGuard)
-  @Patch('/:id')
-  approveReprot(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() body: ApproveReportDto,
-  ) {
-    return this.reportService.changeApproval(id, body.approved);
   }
 
   @Serialize(ReportDto)

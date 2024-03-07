@@ -1,21 +1,13 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
-  HttpCode,
-  HttpStatus,
-  NotFoundException,
-  Param,
-  Patch,
   Post,
-  Query,
   Session,
   UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { UserDto } from './dto/user.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { AuthService } from './auth.service';
@@ -56,45 +48,12 @@ export class UsersController {
   whoAmI(@CurrentUser() user: User) {
     return user;
   }
+
   @ApiCookieAuth()
   @ApiTags('Users')
   @Post('/signout')
   signOut(@Session() session: any) {
     session.userId = null;
     console.log(session);
-  }
-  @ApiCookieAuth()
-  @ApiTags('Users')
-  @Get('/users')
-  @UseGuards(AuthGuard)
-  findAllUsers(@Query('email') email: string) {
-    return this.userService.find(email);
-  }
-  @ApiCookieAuth()
-  @ApiTags('Users')
-  @Get('/user/:id')
-  @UseGuards(AuthGuard)
-  // @UseInterceptors(new SerializeInterceptor(UserDto))
-  async findUser(@Param('id') id: string) {
-    const user = await this.userService.findOne(parseInt(id));
-    if (!user) throw new NotFoundException('User not found');
-    return user;
-  }
-
-  @ApiCookieAuth()
-  @ApiTags('Users')
-  @Patch('/user/:id')
-  @UseGuards(AuthGuard)
-  updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
-    return this.userService.update(parseInt(id), body);
-  }
-
-  @ApiCookieAuth()
-  @ApiTags('Users')
-  @Delete('/user/:id')
-  @UseGuards(AuthGuard)
-  @HttpCode(HttpStatus.NO_CONTENT)
-  deleteUser(@Param('id') id: string) {
-    return this.userService.remove(parseInt(id));
   }
 }
