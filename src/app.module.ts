@@ -22,11 +22,6 @@ console.log(process.env.NODE_ENV);
     }),
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath:
-        process.env.NODE_ENV === 'development' ||
-        process.env.NODE_ENV === 'test'
-          ? `.env.${process.env.NODE_ENV}`
-          : undefined,
     }),
 
     ReportsModule,
