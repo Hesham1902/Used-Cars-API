@@ -8,15 +8,15 @@ import { Repository } from 'typeorm';
 export class AdminService {
   constructor(
     @InjectRepository(User) private userRepo: Repository<User>,
-    @InjectRepository(User) private reportRepo: Repository<Report>,
+    @InjectRepository(Report) private reportRepo: Repository<Report>,
   ) {}
 
   findAllUsers() {
     return this.userRepo.find();
   }
 
-  findAllReports() {
-    return this.reportRepo.find();
+  async findAllReports() {
+    return await this.reportRepo.find();
   }
 
   async update(id: number, attrs: Partial<User>) {

@@ -35,13 +35,11 @@ export class AdminController {
   }
 
   @ApiOperation({ summary: 'Get All users' })
-  @ApiCookieAuth()
   @Get('/users')
   findAllUsers() {
     return this.adminService.findAllUsers();
   }
   @ApiOperation({ summary: 'Get All Reports' })
-  @ApiCookieAuth()
   @Get('/reports')
   findAllReports() {
     return this.adminService.findAllReports();
@@ -54,7 +52,6 @@ export class AdminController {
   }
 
   @ApiOperation({ summary: 'Get any user data by ID' })
-  @ApiCookieAuth()
   @Get('/user/:id')
   // @UseInterceptors(new SerializeInterceptor(UserDto))
   async findUser(@Param('id') id: string) {
