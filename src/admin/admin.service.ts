@@ -10,8 +10,13 @@ export class AdminService {
     @InjectRepository(User) private userRepo: Repository<User>,
     @InjectRepository(User) private reportRepo: Repository<Report>,
   ) {}
-  find() {
+
+  findAllUsers() {
     return this.userRepo.find();
+  }
+
+  findAllReports() {
+    return this.reportRepo.find();
   }
 
   async update(id: number, attrs: Partial<User>) {
@@ -34,7 +39,7 @@ export class AdminService {
       throw new NotFoundException('Not found report');
     }
     report.approved = approved;
-    return this.userRepo.save(report);
+    return this.reportRepo.save(report);
   }
   async remove(id: number) {
     const user = await this.userRepo.findOneBy({ id });

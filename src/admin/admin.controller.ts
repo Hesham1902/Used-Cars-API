@@ -36,10 +36,15 @@ export class AdminController {
 
   @ApiOperation({ summary: 'Get All users' })
   @ApiCookieAuth()
-  @ApiTags('Users')
   @Get('/users')
   findAllUsers() {
-    return this.adminService.find();
+    return this.adminService.findAllUsers();
+  }
+  @ApiOperation({ summary: 'Get All Reports' })
+  @ApiCookieAuth()
+  @Get('/reports')
+  findAllReports() {
+    return this.adminService.findAllReports();
   }
 
   @ApiOperation({ summary: 'Update any user data by ID' })
