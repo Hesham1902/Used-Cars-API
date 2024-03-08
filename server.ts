@@ -4,8 +4,12 @@ import { DataSource } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 const appDataSource = new DataSource({
-  type: 'sqlite',
-  database: 'db.sqlite',
+  // type: 'sqlite',
+  // database: 'db.sqlite',
+  // entities: [User, Report],
+  // synchronize: true,
+  type: 'postgres',
+  url: process.env.DATABASE_URL,
   entities: [User, Report],
   synchronize: true,
 });
