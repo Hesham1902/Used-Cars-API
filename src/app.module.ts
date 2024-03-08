@@ -7,11 +7,11 @@ import { Report } from './reports/report.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 import { APP_PIPE } from '@nestjs/core';
+import { AdminModule } from './admin/admin.module';
+import { config } from 'dotenv';
+config();
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const cookieSession = require('cookie-session');
-
-console.log(process.env.NODE_ENV);
-
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -23,7 +23,7 @@ console.log(process.env.NODE_ENV);
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-
+    AdminModule,
     ReportsModule,
     UsersModule,
   ],
